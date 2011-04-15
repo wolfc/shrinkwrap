@@ -16,12 +16,12 @@
  */
 package org.jboss.shrinkwrap.impl.base.asset;
 
+import org.jboss.shrinkwrap.api.asset.Asset;
+import org.jboss.shrinkwrap.impl.base.Validate;
+
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import org.jboss.shrinkwrap.api.asset.Asset;
-import org.jboss.shrinkwrap.impl.base.Validate;
 
 /**
  * Holds a reference to the ZipFile and the ZipEntry this
@@ -61,5 +61,11 @@ public class ZipFileEntryAsset implements Asset
       {
          throw new RuntimeException("Could not open zip file stream", e); 
       }
+   }
+
+   @Override
+   public long size()
+   {
+      return entry.getSize();
    }
 }

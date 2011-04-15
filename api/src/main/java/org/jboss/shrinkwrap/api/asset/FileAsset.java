@@ -74,6 +74,12 @@ public class FileAsset implements Asset
       }
    }
 
+   @Override
+   public long size()
+   {
+      return file.length();
+   }
+
    /**
     * {@inheritDoc}
     * @see java.lang.Object#toString()

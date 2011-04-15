@@ -21,6 +21,8 @@
  */
 package org.jboss.shrinkwrap.impl.base.exporter.zip;
 
+import org.jboss.shrinkwrap.api.ArchiveFactory;
+import org.jboss.shrinkwrap.api.ConfigurationBuilder;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
@@ -31,6 +33,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
+import java.util.concurrent.Executors;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -39,6 +42,34 @@ import static org.junit.Assert.assertArrayEquals;
  */
 public class ShrinkWrap269TestCase
 {
+    @Test
+    public void testExecutor() throws InterruptedException, IOException {
+        ConfigurationBuilder builder = new ConfigurationBuilder()
+                .executorService(Executors.newSingleThreadScheduledExecutor());
+        ArchiveFactory factory = ShrinkWrap.createDomain(builder).getArchiveFactory();
+        // blow the pipe
+        InputStream in = factory.create(JavaArchive.class, "test.jar")
+            .add(MegaByteAsset.newInstance(), "dummy")
+            .as(ZipExporter.class)
+            .exportAsInputStream();
+        // I want the pipe full
+        Thread.sleep(1000);
+        // oopsy, I lost the InputStream :-)
+        in = null;
+        // go away, go away
+        for(int i = 0; i < 3; i++)
+        {
+            System.gc();
+            Runtime.getRuntime().runFinalization();
+        }
+        // oh well, next!
+        InputStream in2 = factory.create(JavaArchive.class, "test2.jar")
+            .add(MegaByteAsset.newInstance(), "dummy")
+            .as(ZipExporter.class)
+            .exportAsInputStream();
+        in2.read();
+    }
+
     @Test
     public void testNoClose() throws IOException, InterruptedException {
         final Thread tarray[] = new Thread[100];

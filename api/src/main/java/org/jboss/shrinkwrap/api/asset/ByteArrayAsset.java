@@ -107,6 +107,12 @@ public class ByteArrayAsset implements Asset
       return new ByteArrayInputStream(this.content);
    }
 
+   @Override
+   public long size()
+   {
+      return this.content.length;
+   }
+
    /**
     * {@inheritDoc}
     * @see java.lang.Object#toString()

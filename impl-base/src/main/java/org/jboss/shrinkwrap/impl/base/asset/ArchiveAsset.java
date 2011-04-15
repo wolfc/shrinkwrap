@@ -16,12 +16,12 @@
  */
 package org.jboss.shrinkwrap.impl.base.asset;
 
-import java.io.InputStream;
-
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.exporter.StreamExporter;
 import org.jboss.shrinkwrap.impl.base.Validate;
+
+import java.io.InputStream;
 
 /**
  * An {@link Asset} representing an {@link Archive}; a
@@ -95,4 +95,9 @@ public class ArchiveAsset implements Asset
       return archive;
    }
 
+   @Override
+   public long size()
+   {
+      return SIZE_UNKNOWN;
+   }
 }

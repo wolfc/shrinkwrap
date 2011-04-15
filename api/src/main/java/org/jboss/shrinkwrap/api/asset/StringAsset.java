@@ -70,6 +70,12 @@ public class StringAsset implements Asset
       return new ByteArrayInputStream(content.getBytes());
    }
 
+   @Override
+   public long size()
+   {
+      return content.length();
+   }
+
    /**
     * {@inheritDoc}
     * @see java.lang.Object#toString()

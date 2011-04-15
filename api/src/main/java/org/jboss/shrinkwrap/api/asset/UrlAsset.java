@@ -75,6 +75,12 @@ public class UrlAsset implements Asset
       }
    }
 
+   @Override
+   public long size()
+   {
+      return SIZE_UNKNOWN;
+   }
+
    /**
     * {@inheritDoc}
     * @see java.lang.Object#toString()

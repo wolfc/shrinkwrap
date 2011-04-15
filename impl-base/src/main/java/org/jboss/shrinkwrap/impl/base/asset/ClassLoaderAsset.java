@@ -16,11 +16,11 @@
  */
 package org.jboss.shrinkwrap.impl.base.asset;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.impl.base.Validate;
+
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 
 /**
  * ClassloaderAsset
@@ -78,4 +78,9 @@ public class ClassLoaderAsset implements Asset
       return new BufferedInputStream(classLoader.getResourceAsStream(resourceName), 8192);
    }
 
+   @Override
+   public long size()
+   {
+      return SIZE_UNKNOWN;
+   }
 }
