@@ -16,9 +16,22 @@
  */
 package org.jboss.shrinkwrap.impl.base.test;
 
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import org.jboss.shrinkwrap.api.*;
+
+import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ArchivePath;
+import org.jboss.shrinkwrap.api.ArchivePaths;
+import org.jboss.shrinkwrap.api.Filters;
+import org.jboss.shrinkwrap.api.GenericArchive;
+import org.jboss.shrinkwrap.api.IllegalArchivePathException;
+import org.jboss.shrinkwrap.api.Node;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.asset.NamedAsset;
@@ -31,11 +44,6 @@ import org.jboss.shrinkwrap.impl.base.io.IOUtil;
 import org.jboss.shrinkwrap.impl.base.path.BasicPath;
 import org.junit.After;
 import org.junit.Test;
-
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * ArchiveTestBase
@@ -340,11 +348,7 @@ public abstract class ArchiveTestBase<T extends Archive<T>>
             return testAsset.openStream();
          }
 
-         @Override
-         public long size()
-         {
-            return testAsset.size();
-         }
+         
       };
       
       archive.add(namedAsset);

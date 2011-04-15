@@ -16,11 +16,11 @@
  */
 package org.jboss.shrinkwrap.impl.base.asset;
 
-import org.jboss.shrinkwrap.api.asset.Asset;
-import org.jboss.shrinkwrap.impl.base.Validate;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+
+import org.jboss.shrinkwrap.api.asset.Asset;
+import org.jboss.shrinkwrap.impl.base.Validate;
 
 /**
  * ServiceProviderAsset
@@ -56,11 +56,5 @@ public class ServiceProviderAsset implements Asset
          content.append(providerImpl.getName()).append('\n');
       }
       return new ByteArrayInputStream(content.toString().getBytes());
-   }
-
-   @Override
-   public long size()
-   {
-      return SIZE_UNKNOWN;
    }
 }

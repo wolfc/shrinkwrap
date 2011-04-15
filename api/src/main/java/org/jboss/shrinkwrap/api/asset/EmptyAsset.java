@@ -31,12 +31,6 @@ public enum EmptyAsset implements Asset {
       return new ByteArrayInputStream(content);
    }
 
-   @Override
-   public long size()
-   {
-      return 0;
-   }
-
    /**
     * {@inheritDoc}
     * @see java.lang.Object#toString()

@@ -16,11 +16,11 @@
  */
 package org.jboss.shrinkwrap.api.asset;
 
+import java.io.InputStream;
+
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.Node;
-
-import java.io.InputStream;
 
 /**
  * Represents byte-based content.
@@ -33,8 +33,6 @@ import java.io.InputStream;
  */
 public interface Asset
 {
-   static long SIZE_UNKNOWN = -1;
-
    /**
     * Get a input stream for the resource content.
     * The caller is responsible for closing the stream. 
@@ -46,6 +44,4 @@ public interface Asset
     * type simply represents a logical path within an {@link Archive}
     */
    InputStream openStream();
-
-   long size();
 }

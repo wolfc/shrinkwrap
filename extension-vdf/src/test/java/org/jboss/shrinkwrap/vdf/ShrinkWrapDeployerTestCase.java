@@ -1,7 +1,15 @@
 package org.jboss.shrinkwrap.vdf;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.List;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
+
 import org.jboss.bootstrap.api.descriptor.BootstrapDescriptor;
 import org.jboss.bootstrap.api.lifecycle.LifecycleState;
 import org.jboss.bootstrap.api.mc.server.MCServer;
@@ -24,13 +32,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.List;
 
 /**
  * Ensures that the {@link ShrinkWrapDeployer} supports deployment
@@ -211,13 +212,6 @@ public class ShrinkWrapDeployerTestCase
             return new ByteArrayInputStream(new String(
                   "<deployment xmlns=\"urn:jboss:bean-deployer:2.0\"><bean name=\"LifecyclePojo\" class=\""
                         + LifecyclePojo.class.getName() + "\" /></deployment>").getBytes());
-         }
-
-         @Override
-         public long size()
-         {
-            // I'm lazy
-            return SIZE_UNKNOWN;
          }
       };
       final JavaArchive testJar = ShrinkWrap.create(JavaArchive.class, NAME_ARCHIVE).addClass(LifecyclePojo.class).add(

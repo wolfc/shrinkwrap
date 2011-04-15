@@ -24,7 +24,6 @@ package org.jboss.shrinkwrap.impl.base.exporter.zip;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.Node;
-import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.exporter.ArchiveExportException;
 
 import java.io.IOException;
@@ -336,18 +335,6 @@ class VirtualJarInputStream extends JarInputStream
       public Attributes getAttributes() throws IOException
       {
          return attributes;
-      }
-
-      /**
-       * {@inheritDoc} *
-       */
-      @Override
-      public long getSize()
-      {
-         Asset asset = virtualFile.getAsset();
-         if(asset == null)
-            return 0;
-         return asset.size();
       }
 
       @Override

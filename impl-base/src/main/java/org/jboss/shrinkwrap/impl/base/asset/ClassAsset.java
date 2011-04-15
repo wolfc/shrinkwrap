@@ -16,10 +16,10 @@
  */
 package org.jboss.shrinkwrap.impl.base.asset;
 
+import java.io.InputStream;
+
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.impl.base.Validate;
-
-import java.io.InputStream;
 
 /**
  * ClassAsset
@@ -95,12 +95,5 @@ public class ClassAsset implements Asset
 
       // Return 
       return resourceName;
-   }
-
-   @Override
-   public long size()
-   {
-      // TODO: delegate to ClassLoaderAsset
-      return SIZE_UNKNOWN;
    }
 }

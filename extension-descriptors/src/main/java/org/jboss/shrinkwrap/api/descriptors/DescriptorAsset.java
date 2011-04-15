@@ -88,9 +88,4 @@ public class DescriptorAsset implements NamedAsset
        return descriptor.getDescriptorName();
     }
 
-   @Override
-   public long size()
-   {
-      return SIZE_UNKNOWN;
-   }
 }

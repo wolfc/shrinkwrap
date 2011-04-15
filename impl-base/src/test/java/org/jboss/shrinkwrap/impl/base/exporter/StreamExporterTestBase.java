@@ -375,11 +375,6 @@ public abstract class StreamExporterTestBase<T extends StreamImporter<T>> extend
             throw new RuntimeException("Mock Exception from an Asset write");
          }
 
-         @Override
-         public long size()
-         {
-            return SIZE_UNKNOWN;
-         }
       }, PATH_ONE);
 
       // Export
