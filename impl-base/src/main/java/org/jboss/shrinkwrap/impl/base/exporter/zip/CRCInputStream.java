@@ -32,6 +32,7 @@ import java.util.zip.CRC32;
 class CRCInputStream extends FilterInputStream
 {
    private final CRC32 crc;
+   private long bytesProcessed = 0;
 
    protected CRCInputStream(final InputStream in, final CRC32 crc)
    {
@@ -39,12 +40,20 @@ class CRCInputStream extends FilterInputStream
       this.crc = crc;
    }
 
+   protected long getBytesProcessed()
+   {
+      return bytesProcessed;
+   }
+
    @Override
    public int read() throws IOException
    {
       int c = super.read();
       if (c != -1)
+      {
          crc.update(c);
+         bytesProcessed++;
+      }
       return c;
    }
 
@@ -53,7 +62,10 @@ class CRCInputStream extends FilterInputStream
    {
       final int len = super.read(b);
       if (len != -1)
+      {
          crc.update(b, 0, len);
+         bytesProcessed += len;
+      }
       return len;
    }
 
@@ -62,7 +74,10 @@ class CRCInputStream extends FilterInputStream
    {
       len = super.read(b, off, len);
       if (len != -1)
-         crc.update(b, 0, len);
+      {
+         crc.update(b, off, len);
+         bytesProcessed += len;
+      }
       return len;
    }
 }

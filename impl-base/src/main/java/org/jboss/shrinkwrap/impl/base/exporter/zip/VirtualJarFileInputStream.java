@@ -59,6 +59,7 @@ class VirtualJarFileInputStream extends InputStream
    private long centralOffset;
    private long totalRead;
 
+   private CRCInputStream currentCRCInputStream;
    private InputStream currentInputStream;
 
    /**
@@ -138,6 +139,7 @@ class VirtualJarFileInputStream extends InputStream
    {
       virtualJarInputStream.closeEntry();
       currentEntry.crc = crc.getValue();
+      currentEntry.uncompressedSize = currentCRCInputStream.getBytesProcessed();
       crc.reset();
    }
 
@@ -183,7 +185,9 @@ class VirtualJarFileInputStream extends InputStream
       bufferInt(ZipEntry.EXTSIG);
       bufferInt(currentEntry.crc);
       bufferInt(currentEntry.compressedSize); // compressed size
-      bufferInt(currentEntry.jarEntry.getSize()); // uncompressed size
+      long uncompressedSize = currentEntry.uncompressedSize;
+      assert uncompressedSize != -1;
+      bufferInt(uncompressedSize); // uncompressed size
 
       //crc.reset();
    }
@@ -214,7 +218,7 @@ class VirtualJarFileInputStream extends InputStream
       bufferInt(javaToDosTime(jarEntry.getTime())); // Entry time
       bufferInt(entry.crc); // CRC
       bufferInt(entry.compressedSize); // Compressed size
-      bufferInt(jarEntry.getSize()); // Uncompressed size
+      bufferInt(entry.uncompressedSize); // Uncompressed size
       byte[] nameBytes = jarEntry.getName().getBytes("UTF8");
       bufferShort(nameBytes.length); // Entry name length
       bufferShort(0); // Extra field length
@@ -305,6 +309,7 @@ class VirtualJarFileInputStream extends InputStream
       private final long offset;
       private long crc;
       private long compressedSize;
+      private long uncompressedSize;
 
       private ProcessedEntry(final JarEntry jarEntry, final long offset)
       {
@@ -381,7 +386,8 @@ class VirtualJarFileInputStream extends InputStream
                  void init(final VirtualJarFileInputStream jarFileInputStream) throws IOException
                  {
                     jarFileInputStream.crc.reset();
-                    jarFileInputStream.currentInputStream = new DeflaterInputStream(new CRCInputStream(jarFileInputStream.virtualJarInputStream, jarFileInputStream.crc), new Deflater(Deflater.DEFAULT_COMPRESSION, true));
+                    jarFileInputStream.currentCRCInputStream = new CRCInputStream(jarFileInputStream.virtualJarInputStream, jarFileInputStream.crc);
+                    jarFileInputStream.currentInputStream = new DeflaterInputStream(jarFileInputStream.currentCRCInputStream, new Deflater(Deflater.DEFAULT_COMPRESSION, true));
                  }
 
                  @Override

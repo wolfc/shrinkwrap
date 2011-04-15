@@ -41,6 +41,16 @@ import static org.junit.Assert.assertEquals;
 public class VirtualJarFileInputStreamTestCase
 {
    @Test
+   public void testClass()
+   {
+      Archive<?> archive = ShrinkWrap.create(JavaArchive.class, "test.jar")
+         .addClass(VirtualJarFileInputStreamTestCase.class);
+      InputStream in = archive.as(ZipExporter.class).exportAsInputStream();
+      Archive<?> imported = ShrinkWrap.create(JavaArchive.class);
+      imported.as(ZipImporter.class).importFrom(in);
+   }
+
+   @Test
    public void testSimple() throws IOException
    {
       Archive<?> archive = ShrinkWrap.create(JavaArchive.class, "test.jar")
